@@ -42,7 +42,7 @@ int main() {
             case 1:
             do{
                 
-                printf("¿Cuantas materias desea ingresar? (máximo 3): ");
+                printf("Cuantas materias desea ingresar? (maximo 3): ");
                 fgets(entrada, sizeof(entrada), stdin);
                 if (sscanf(entrada, "%d", &maxmaterias) != 1 || maxmaterias < 1 || maxmaterias > 3) {
                     printf(ROJO "Debe ingresar un numero valido entre 1 y 3.\n" RESET);
@@ -61,7 +61,7 @@ int main() {
 
             case 2:
                 do {
-                    printf("¿Cuantos estudiantes desea ingresar? (máximo 5): ");
+                    printf("Cuantos estudiantes desea ingresar? (maximo 5): ");
                     fgets(entrada, sizeof(entrada), stdin);
                     if (sscanf(entrada, "%d", &maxestudiantes) != 1 || maxestudiantes < 1 || maxestudiantes > 5) {
                         printf(ROJO "Debe ingresar un numero valido entre 1 y 5.\n" RESET);
@@ -74,7 +74,7 @@ int main() {
                     estudiante[j][strcspn(estudiante[j], "\n")] = 0;
                 }
                 val2++;
-                printf(VERDE "¡Estudiantes ingresados con exito!\n" RESET);
+                printf(VERDE "Estudiantes ingresados con exito!\n" RESET);
                 break;
 
             case 3:
@@ -113,7 +113,7 @@ int main() {
                             printf(ROJO "Nota invalida. Debe estar entre 0 y 10.\n" RESET);
                         } else {
                             notas[nmateria][nestudiante] = nota;
-                            printf(VERDE "¡Nota ingresada con exito!\n" RESET);
+                            printf(VERDE "Nota ingresada con exito!\n" RESET);
                             break;
                         }
                     } while (1);
@@ -161,7 +161,7 @@ int main() {
                             if (notas[m][e] > max) max = notas[m][e];
                             if (notas[m][e] < min) min = notas[m][e];
                         }
-                        printf("Materia: %s | Máxima: %.2f | Mínima: %.2f\n", materia[m], max, min);
+                        printf("Materia: %s | Maxima: %.2f | Minima: %.2f\n", materia[m], max, min);
                     }
                 } else {
                     printf(ROJO "Debe ingresar primero las materias y los estudiantes.\n" RESET);
