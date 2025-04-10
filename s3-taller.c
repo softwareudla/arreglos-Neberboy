@@ -14,8 +14,8 @@ int main() {
     char materia[3][30];
     char entrada[100];
     float notas[3][5] = {0};
-    int opc1 = 0, val = 0, val2=0, materias_ingresadas = 0;
-    int maxestudiantes = 0, nmateria = 0, nestudiante = 0, vali;
+    int opc1 = 0, val = 0, val2 = 0, materias_ingresadas = 0;
+    int maxestudiantes = 0, maxmaterias = 0, nmateria = 0, nestudiante = 0, vali;
 
     while (opc1 != 8) {
         printf("\n%s==============================%s\n", AZUL, RESET);
@@ -40,9 +40,16 @@ int main() {
 
             switch (opc1) {
             case 1:
+            do{
                 
-                printf("Ingrese las 3 materias:\n");
-                for (int i = 0; i < 3; i++) {
+                printf("¿Cuantas materias desea ingresar? (máximo 3): ");
+                fgets(entrada, sizeof(entrada), stdin);
+                if (sscanf(entrada, "%d", &maxmaterias) != 1 || maxmaterias < 1 || maxmaterias > 3) {
+                    printf(ROJO "Debe ingresar un numero valido entre 1 y 3.\n" RESET);
+                } else break;
+            } while (1);
+                printf("Ingrese la materias:\n");
+                for (int i = 0; i < maxmaterias; i++) {
                     printf("Materia #%d: ", i + 1);
                     fgets(materia[i], 30, stdin);
                     materia[i][strcspn(materia[i], "\n")] = 0;
@@ -71,16 +78,16 @@ int main() {
                 break;
 
             case 3:
-                if (val > 0 && val2>0) {
+                if (val > 0 && val2 > 0) {
                     printf("Seleccione una materia:\n");
-                    for (int i = 0; i < 3; i++) {
+                    for (int i = 0; i < maxmaterias; i++) {
                         printf("%d\t\t%s\n", i, materia[i]);
                     }
 
                     do {
                         printf(">> ");
                         fgets(entrada, sizeof(entrada), stdin);
-                        if (sscanf(entrada, "%d", &nmateria) != 1 || nmateria < 0 || nmateria > 2) {
+                        if (sscanf(entrada, "%d", &nmateria) != 1 || nmateria < 0 || nmateria >= maxmaterias) {
                             printf(ROJO "Seleccione un numero valido de materia.\n" RESET);
                         } else break;
                     } while (1);
@@ -116,10 +123,10 @@ int main() {
                 break;
 
             case 4:
-                if (val > 0 && val2>0) {
+                if (val > 0 && val2 > 0) {
                     for (int e = 0; e < maxestudiantes; e++) {
                         float suma = 0;
-                        for (int m = 0; m < 3; m++) {
+                        for (int m = 0; m < maxmaterias; m++) {
                             suma += notas[m][e];
                         }
                         float promedio = suma / 3.0;
@@ -131,8 +138,8 @@ int main() {
                 break;
 
             case 5:
-                if (val > 0 && val2>0) {
-                    for (int m = 0; m < 3; m++) {
+                if (val > 0 && val2 > 0) {
+                    for (int m = 0; m < maxmaterias; m++) {
                         float suma = 0;
                         for (int e = 0; e < maxestudiantes; e++) {
                             suma += notas[m][e];
@@ -146,7 +153,7 @@ int main() {
                 break;
 
             case 6:
-                if (val > 0 && val2>0) {
+                if (val > 0 && val2 > 0) {
                     for (int m = 0; m < 3; m++) {
                         float max = notas[m][0];
                         float min = notas[m][0];
@@ -162,8 +169,8 @@ int main() {
                 break;
 
             case 7:
-                if (val > 0 && val2>0) {
-                    for (int m = 0; m < 3; m++) {
+                if (val > 0 && val2 > 0) {
+                    for (int m = 0; m < maxmaterias; m++) {
                         int aprobados = 0, reprobados = 0;
                         for (int e = 0; e < maxestudiantes; e++) {
                             if (notas[m][e] >= 6.0) {
@@ -185,7 +192,6 @@ int main() {
 
             default:
                 printf(ROJO "Opcion invalida. Ingrese un numero entre 1 y 8.\n" RESET);
-                
                 break;
             }
         }
