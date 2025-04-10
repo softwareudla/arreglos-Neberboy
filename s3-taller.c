@@ -2,71 +2,79 @@
 #include <stdlib.h>
 #include <string.h>
 
-int main (int argc, char *argv[]) {
+// Códigos ANSI para colores
+#define ROJO "\x1b[31m"
+#define VERDE "\x1b[32m"
+#define AMARILLO "\x1b[33m"
+#define AZUL "\x1b[34m"
+#define RESET "\x1b[0m"
 
-    char estudiante[5][30];  
-    char materia[3][30];     
+int main() {
+    char estudiante[5][30];
+    char materia[3][30];
     char entrada[100];
-    float notas[3][5] = {0}; 
-    int opc1 = 0, val = 0, nmateria = 0, maxestudiantes = 0, nestudiante = 0, vali;
+    float notas[3][5] = {0};
+    int opc1 = 0, val = 0, materias_ingresadas = 0;
+    int maxestudiantes = 0, nmateria = 0, nestudiante = 0, vali;
 
     while (opc1 != 8) {
-        printf("\n\n");
-        printf("Programa de Gestion de notas\n");
-        printf("1. Ingresar Materia.\n");
-        printf("2. Ingresar Estudiantes.\n");
-        printf("3. Ingresar Notas.\n");
-        printf("4. Promedio por estudiantes.\n");
-        printf("5. Promedio por asignatura.\n");
-        printf("6. Notas Maxima y Minima.\n");
-        printf("7. Aprobados y Reprobados\n");
-        printf("8. Salir...\n");
-        printf(">> ");
+        printf("\n%s==============================%s\n", AZUL, RESET);
+        printf("%s  Programa de Gestion de Notas  %s\n", VERDE, RESET);
+        printf("%s==============================%s\n", AZUL, RESET);
+        printf("%s1.%s Ingresar Materia\n", AMARILLO, RESET);
+        printf("%s2.%s Ingresar Estudiantes\n", AMARILLO, RESET);
+        printf("%s3.%s Ingresar Notas\n", AMARILLO, RESET);
+        printf("%s4.%s Promedio por Estudiantes\n", AMARILLO, RESET);
+        printf("%s5.%s Promedio por Asignatura\n", AMARILLO, RESET);
+        printf("%s6.%s Notas Maxima y Minima\n", AMARILLO, RESET);
+        printf("%s7.%s Aprobados y Reprobados\n", AMARILLO, RESET);
+        printf("%s8.%s Salir\n", ROJO, RESET);
+        printf("%s>> %s", VERDE, RESET);
 
         if (fgets(entrada, sizeof(entrada), stdin)) {
             char extra;
             if (sscanf(entrada, "%d %c", &opc1, &extra) != 1) {
-                printf("Entrada inválida. Ingrese solo un número entero.\n");
+                printf(ROJO "Entrada invalida. Ingrese solo un numero entero.\n" RESET);
                 continue;
             }
 
-            switch (opc1)
-            {
+            switch (opc1) {
             case 1:
+                if (materias_ingresadas == 1) {
+                    printf(ROJO "Ya se ingresaron las materias. No puede ingresarlas de nuevo.\n" RESET);
+                    break;
+                }
                 printf("Ingrese las 3 materias:\n");
                 for (int i = 0; i < 3; i++) {
                     printf("Materia #%d: ", i + 1);
                     fgets(materia[i], 30, stdin);
-                    materia[i][strcspn(materia[i], "\n")] = 0; // quitar salto de línea
-                    printf("¡Materias ingresadas con Exito!");
+                    materia[i][strcspn(materia[i], "\n")] = 0;
                 }
-                val += 1;
+                materias_ingresadas = 1;
+                val++;
+                printf(VERDE "¡Materias ingresadas con exito!\n" RESET);
                 break;
 
             case 2:
                 do {
-                    printf("¿Cuántos estudiantes desea ingresar? (máximo 5): ");
-                    if (fgets(entrada, sizeof(entrada), stdin)) {
-                        if (sscanf(entrada, "%d", &maxestudiantes) != 1 || maxestudiantes < 1 || maxestudiantes > 5) {
-                            printf("Debe ingresar un número entero válido entre 1 y 5.\n");
-                        } else {
-                            break;
-                        }
-                    }
+                    printf("¿Cuantos estudiantes desea ingresar? (máximo 5): ");
+                    fgets(entrada, sizeof(entrada), stdin);
+                    if (sscanf(entrada, "%d", &maxestudiantes) != 1 || maxestudiantes < 1 || maxestudiantes > 5) {
+                        printf(ROJO "Debe ingresar un numero valido entre 1 y 5.\n" RESET);
+                    } else break;
                 } while (1);
 
                 for (int j = 0; j < maxestudiantes; j++) {
                     printf("Estudiante #%d: ", j + 1);
                     fgets(estudiante[j], 30, stdin);
                     estudiante[j][strcspn(estudiante[j], "\n")] = 0;
-                    printf("¡Estudiantes ingresados con Exito!");
                 }
-                val += 1;
+                val++;
+                printf(VERDE "¡Estudiantes ingresados con exito!\n" RESET);
                 break;
 
             case 3:
                 if (val == 2) {
-                    // Selección de materia
                     printf("Seleccione una materia:\n");
                     for (int i = 0; i < 3; i++) {
                         printf("%d\t\t%s\n", i, materia[i]);
@@ -76,11 +84,10 @@ int main (int argc, char *argv[]) {
                         printf(">> ");
                         fgets(entrada, sizeof(entrada), stdin);
                         if (sscanf(entrada, "%d", &nmateria) != 1 || nmateria < 0 || nmateria > 2) {
-                            printf("Entrada inválida. Seleccione un número válido de materia.\n");
+                            printf(ROJO "Seleccione un numero valido de materia.\n" RESET);
                         } else break;
                     } while (1);
 
-                    // Selección de estudiante
                     printf("Seleccione un estudiante:\n");
                     for (int i = 0; i < maxestudiantes; i++) {
                         printf("%d\t\t%s\n", i, estudiante[i]);
@@ -90,29 +97,28 @@ int main (int argc, char *argv[]) {
                         printf(">> ");
                         fgets(entrada, sizeof(entrada), stdin);
                         if (sscanf(entrada, "%d", &nestudiante) != 1 || nestudiante < 0 || nestudiante >= maxestudiantes) {
-                            printf("Entrada inválida. Seleccione un número válido de estudiante.\n");
+                            printf(ROJO "Numero de estudiante invalido.\n" RESET);
                         } else break;
                     } while (1);
 
-                    // Ingreso de nota
                     float nota;
                     do {
                         printf("Ingrese la nota (0 - 10): ");
                         fgets(entrada, sizeof(entrada), stdin);
                         if (sscanf(entrada, "%f", &nota) != 1 || nota < 0 || nota > 10) {
-                            printf("Nota inválida. Debe estar entre 0 y 10.\n");
+                            printf(ROJO "Nota invalida. Debe estar entre 0 y 10.\n" RESET);
                         } else {
                             notas[nmateria][nestudiante] = nota;
-                            printf("¡Nota ingresada con Exito!");
+                            printf(VERDE "¡Nota ingresada con exito!\n" RESET);
                             break;
                         }
                     } while (1);
                 } else {
-                    printf("Debe ingresar primero las materias y los estudiantes.\n");
+                    printf(ROJO "Debe ingresar primero las materias y los estudiantes.\n" RESET);
                 }
                 break;
 
-            case 4: // Promedio por estudiante
+            case 4:
                 if (val == 2) {
                     for (int e = 0; e < maxestudiantes; e++) {
                         float suma = 0;
@@ -123,11 +129,11 @@ int main (int argc, char *argv[]) {
                         printf("Estudiante: %s | Promedio: %.2f\n", estudiante[e], promedio);
                     }
                 } else {
-                    printf("Debe ingresar primero las materias y los estudiantes.\n");
+                    printf(ROJO "Debe ingresar primero las materias y los estudiantes.\n" RESET);
                 }
                 break;
 
-            case 5: // Promedio por materia
+            case 5:
                 if (val == 2) {
                     for (int m = 0; m < 3; m++) {
                         float suma = 0;
@@ -138,24 +144,50 @@ int main (int argc, char *argv[]) {
                         printf("Materia: %s | Promedio: %.2f\n", materia[m], promedio);
                     }
                 } else {
-                    printf("Debe ingresar primero las materias y los estudiantes.\n");
+                    printf(ROJO "Debe ingresar primero las materias y los estudiantes.\n" RESET);
                 }
                 break;
 
             case 6:
-                printf("Funcionalidad no implementada aún.\n");
+                if (val == 2) {
+                    for (int m = 0; m < 3; m++) {
+                        float max = notas[m][0];
+                        float min = notas[m][0];
+                        for (int e = 1; e < maxestudiantes; e++) {
+                            if (notas[m][e] > max) max = notas[m][e];
+                            if (notas[m][e] < min) min = notas[m][e];
+                        }
+                        printf("Materia: %s | Máxima: %.2f | Mínima: %.2f\n", materia[m], max, min);
+                    }
+                } else {
+                    printf(ROJO "Debe ingresar primero las materias y los estudiantes.\n" RESET);
+                }
                 break;
 
             case 7:
-                printf("Funcionalidad no implementada aún.\n");
+                if (val == 2) {
+                    for (int m = 0; m < 3; m++) {
+                        int aprobados = 0, reprobados = 0;
+                        for (int e = 0; e < maxestudiantes; e++) {
+                            if (notas[m][e] >= 6.0) {
+                                aprobados++;
+                            } else {
+                                reprobados++;
+                            }
+                        }
+                        printf("Materia: %s | Aprobados: %d | Reprobados: %d\n", materia[m], aprobados, reprobados);
+                    }
+                } else {
+                    printf(ROJO "Debe ingresar primero las materias y los estudiantes.\n" RESET);
+                }
                 break;
 
             case 8:
-                printf("Saliendo del programa...\n");
+                printf(ROJO "Saliendo del programa...\n" RESET);
                 break;
 
             default:
-                printf("Opción inválida. Ingrese un número entre 1 y 8.\n");
+                printf(ROJO "Opcion invalida. Ingrese un numero entre 1 y 8.\n" RESET);
                 break;
             }
         }
