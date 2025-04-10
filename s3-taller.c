@@ -38,6 +38,7 @@ int main (int argc, char *argv[]) {
                     printf("Materia #%d: ", i + 1);
                     fgets(materia[i], 30, stdin);
                     materia[i][strcspn(materia[i], "\n")] = 0; // quitar salto de línea
+                    printf("¡Materias ingresadas con Exito!");
                 }
                 val += 1;
                 break;
@@ -58,6 +59,7 @@ int main (int argc, char *argv[]) {
                     printf("Estudiante #%d: ", j + 1);
                     fgets(estudiante[j], 30, stdin);
                     estudiante[j][strcspn(estudiante[j], "\n")] = 0;
+                    printf("¡Estudiantes ingresados con Exito!");
                 }
                 val += 1;
                 break;
@@ -101,6 +103,7 @@ int main (int argc, char *argv[]) {
                             printf("Nota inválida. Debe estar entre 0 y 10.\n");
                         } else {
                             notas[nmateria][nestudiante] = nota;
+                            printf("¡Nota ingresada con Exito!");
                             break;
                         }
                     } while (1);
