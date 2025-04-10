@@ -154,7 +154,7 @@ int main() {
 
             case 6:
                 if (val > 0 && val2 > 0) {
-                    for (int m = 0; m < 3; m++) {
+                    for (int m = 0; m < maxmaterias; m++) {
                         float max = notas[m][0];
                         float min = notas[m][0];
                         for (int e = 1; e < maxestudiantes; e++) {
